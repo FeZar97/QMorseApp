@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
 
 RowLayout {
 
@@ -9,22 +9,41 @@ RowLayout {
     Layout.margins: 5
     spacing: 5
 
-    signal openFile(string fileName)
-    signal saveFile(string fileName)
+    signal saveText(string fileName)
 
-    // file import
-    ChooseButton {
-        id: importButton
-        buttonText: qsTr("Import")
-        titleText: qsTr("Import text from file")
-        onGetAction: openFile(fileName)
+    // open dialog
+    FileDialog {
+        id: fileOpenDialog
+        title: qsTr("Open file")
+        nameFilters: [ "TXT files (*.txt)"]
+        fileMode: FileDialog.OpenFile
+        onAccepted: converter.openFile(fileOpenDialog.file)
     }
 
-    // save file
-    ChooseButton {
+    // save dialog
+    FileDialog {
+        id: fileSaveDialog
+        title: "Save file"
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "TXT files (*.txt)"]
+        onAccepted: saveText(fileSaveDialog.file)
+    }
+
+    // import button
+    Button {
+        id: importButton
+        text: qsTr("Import")
+        font.family: "Courier new"
+        font.pointSize: 13
+        onClicked: fileOpenDialog.open()
+    }
+
+    // save button
+    Button {
         id: saveButton
-        buttonText: qsTr("Save")
-        titleText: qsTr("Import transleted text to file")
-        onGetAction: saveFile(fileName)
+        text: qsTr("Save")
+        font.family: "Courier new"
+        font.pointSize: 13
+        onClicked: fileSaveDialog.open()
     }
 }

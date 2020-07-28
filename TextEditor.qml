@@ -5,13 +5,32 @@ import QtQuick.Controls 2.5
 
 ColumnLayout {
 
-    property var plcText
-    property var onlyReadable: true
-
-    signal textChanged(string text)
-
     Layout.fillWidth: true
     Layout.fillHeight: true
+
+    property var plcText
+    property var labelText
+    property var onlyReadable: true
+    property var taText: textArea.text
+
+    signal textChangedTE(string text)
+
+    function setText(decodedText) {
+        textArea.text = decodedText
+    }
+
+    Connections {
+        target: textArea
+        onTextChanged: textChangedTE(textArea.text)
+    }
+
+    Label {
+        Layout.fillWidth: true
+        text: labelText
+        font.family: "Courier new"
+        font.pointSize: 13
+        horizontalAlignment: Text.AlignHCenter
+    }
 
     Rectangle {
         Layout.fillWidth: true
@@ -20,7 +39,7 @@ ColumnLayout {
         border.width: 2
 
         TextArea {
-            id: inputText
+            id: textArea
 
             width: parent.width
             height: parent.height
@@ -32,8 +51,6 @@ ColumnLayout {
             wrapMode: Text.WordWrap
             font.family: "Courier new"
             font.pointSize: 13
-
-            onTextChanged: textChanged(text)
         }
     }
 }

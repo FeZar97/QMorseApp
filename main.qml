@@ -12,7 +12,7 @@ Window {
 
     Connections {
         target: converter
-
+        onEncodedTextReady: textPanel.setEncodedText(encodedText)
         onDecodedTextReady: textPanel.setDecodedText(decodedText)
     }
 
@@ -22,6 +22,8 @@ Window {
 
         ControlPanel {
             id: controlPanel
+
+            onSaveText: converter.saveText(fileName, textPanel.outputText)
         }
 
         TextPanel {

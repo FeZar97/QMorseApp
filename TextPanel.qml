@@ -9,24 +9,44 @@ RowLayout {
 
     Layout.fillHeight: true
 
+    property var inputText: inputTextEdit.taText
+    property var outputText: outputTextEdit.taText
+
+    // set encoded text
+    function setEncodedText(encodedText) {
+        inputTextEdit.setText(encodedText)
+    }
+
+    // set decoded text
+    function setDecodedText(decodedText) {
+        outputTextEdit.setText(decodedText)
+    }
+
     // input text
     TextEditor {
         id: inputTextEdit
         plcText: qsTr("Text to translete")
+        labelText: qsTr("Input text")
         onlyReadable: false
 
-        onTextChanged: converter.processText(text)
+        onTextChangedTE: {
+            converter.processText(text)
+        }
     }
 
     // switch button
     SwitchButton {
         id: switchButton
+        onClick: {
+            inputTextEdit.setText(outputTextEdit.taText)
+        }
     }
 
     // output text
     TextEditor {
         id: outputTextEdit
         plcText: qsTr("Transleted text")
+        labelText: qsTr("Result text")
         onlyReadable: true
     }
 }
