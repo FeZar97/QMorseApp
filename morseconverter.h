@@ -2,6 +2,7 @@
 #define MORSECONVERTER_H
 
 #include <QObject>
+#include <QDebug>
 
 class MorseConverter : public QObject
 {
@@ -9,7 +10,10 @@ class MorseConverter : public QObject
 public:
     explicit MorseConverter(QObject *parent = nullptr);
 
+    void processText(const QString &inputText);
+
 signals:
+    void decodedTextReady(QString decodedText);
 
 };
 

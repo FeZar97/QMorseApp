@@ -1,9 +1,31 @@
-import QtQuick 2.12
-import QtQuick.Window 2.12
+import QtQuick 2.10
+import QtQuick.Window 2.10
+import QtQuick.Layouts 1.10
+import QtQuick.Controls 2.5
 
 Window {
+    id: mainWindow
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Hello World")
+    width: Screen.width / 1.8
+    height: Screen.height / 1.8
+    title: qsTr("MorseApp")
+
+    Connections {
+        target: converter
+
+        onDecodedTextReady: textPanel.setDecodedText(decodedText)
+    }
+
+    ColumnLayout {
+        id: mainLayout
+        anchors.fill: parent
+
+        ControlPanel {
+            id: controlPanel
+        }
+
+        TextPanel {
+            id: textPanel
+        }
+    }
 }
