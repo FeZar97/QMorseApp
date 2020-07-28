@@ -28,6 +28,7 @@ void MorseConverter::processText(QString inputText) {
             }
         } else {
         // if input text is latin
+            inputText = inputText.simplified();
 
             for(auto c: inputText) {
                 if(!MorseAlphabet.contains(c) && c != " ") {
@@ -35,8 +36,9 @@ void MorseConverter::processText(QString inputText) {
                     break;
                 } else {
                     if(c == " ") {
-                        result += "  ";
+                        result += " ";
                     } else {
+                        // add whitespace after previous character
                         if(!result.isEmpty()) {
                             result += " ";
                         }
