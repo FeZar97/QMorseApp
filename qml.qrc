@@ -4,6 +4,6 @@
         <file>ControlPanel.qml</file>
         <file>TextPanel.qml</file>
         <file>TextEditor.qml</file>
-        <file>SwitchButton.qml</file>
+        <file>SimpleButton.qml</file>
     </qresource>
 </RCC>

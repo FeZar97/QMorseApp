@@ -30,20 +30,16 @@ RowLayout {
     }
 
     // import button
-    Button {
+    SimpleButton {
         id: importButton
         text: qsTr("Import")
-        font.family: "Courier new"
-        font.pointSize: 13
         onClicked: fileOpenDialog.open()
     }
 
     // save button
-    Button {
+    SimpleButton {
         id: saveButton
         text: qsTr("Save")
-        font.family: "Courier new"
-        font.pointSize: 13
         onClicked: fileSaveDialog.open()
     }
 }

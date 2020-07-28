@@ -20,16 +20,20 @@ const static QMap<QChar, QString> MorseAlphabet{
     {';', "-.-.-."}, {'?', "..--.."}, {'!', "--..--"}
 };
 
-class MorseConverter : public QObject
-{
+class MorseConverter : public QObject {
     Q_OBJECT
+
+    bool isMorseText(const QString &text);
+    QString latinToMorse(const QString &text);
+    QString morseToLatin(const QString &text);
 
 public:
     explicit MorseConverter(QObject *parent = nullptr);
 
-    Q_INVOKABLE void processText(const QString inputText);
-    Q_INVOKABLE void saveText(QString fileName, const QString inputText);
-    Q_INVOKABLE void openFile(QString fileName);
+public slots:
+    void processText(const QString inputText);
+    void saveText(QString fileName, const QString inputText);
+    void openFile(QString fileName);
 
 signals:
     void encodedTextReady(QString encodedText);

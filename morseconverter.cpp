@@ -1,51 +1,61 @@
 #include "morseconverter.h"
 
-MorseConverter::MorseConverter(QObject *parent) : QObject(parent) {}
+bool MorseConverter::isMorseText(const QString &text) {
+    for (int i = 0; i < text.length(); i++) {
+        if ((text[i] != "-") && (text[i] != ".") && (text[i] != " ")) {
+            return false;
+        }
+    }
+    return true;
+}
+
+QString MorseConverter::latinToMorse(const QString &text) {
+    QString result = "";
+
+    for (auto c: text.simplified()) {
+        if (MorseAlphabet.contains(c)) {
+            // add whitespace after previous character
+            if (!result.isEmpty()) {
+                result += " ";
+            }
+            result += MorseAlphabet[c];
+        } else if (c == " ") {
+            result += " ";
+        }
+    }
+
+    return result;
+}
+
+QString MorseConverter::morseToLatin(const QString &text) {
+    QString result = "";
+
+    QList<QString> morseSymbols = text.split(" ");
+    for (auto mSym: morseSymbols) {
+        if (MorseAlphabet.values().contains(mSym)) {
+            result += MorseAlphabet.key(mSym);
+        } else if (mSym.isEmpty()) {
+            result += " ";
+        }
+    }
+    return result;
+}
+
+MorseConverter::MorseConverter(QObject *parent) : QObject(parent) {
+
+}
 
 void MorseConverter::processText(QString inputText) {
 
+    // remove extra whitespaces from start and end of string and transform it to lower
+    inputText = inputText.trimmed().toLower();
+
     QString result = "";
-    inputText = inputText.trimmed();
-    inputText = inputText.toLower();
-
-    if(!inputText.isEmpty()) {
-
-        // remove extra whitespaces from start and end of string and transform to lower
-
-        // if input text is Morse
-        if(inputText[0] == '.' || inputText[0] == '-') {
-
-            QList<QString> morseSymbols = inputText.split(" ");
-            for(auto mSym: morseSymbols) {
-                if(MorseAlphabet.values().contains(mSym)) {
-                    result += MorseAlphabet.key(mSym);
-                } else if(mSym.isEmpty()) {
-                    result += " ";
-                } else {
-                    result = QString("Fined unknown morse symbol input text: '%1'").arg(mSym);
-                    break;
-                }
-            }
+    if (!inputText.isEmpty()) {
+        if (isMorseText(inputText)) {
+            result = morseToLatin(inputText);
         } else {
-        // if input text is latin
-            inputText = inputText.simplified();
-
-            for(auto c: inputText) {
-                if(!MorseAlphabet.contains(c) && c != " ") {
-                    result = QString("Fined invalid character in input text: %1").arg(c);
-                    break;
-                } else {
-                    if(c == " ") {
-                        result += " ";
-                    } else {
-                        // add whitespace after previous character
-                        if(!result.isEmpty()) {
-                            result += " ";
-                        }
-                        result += MorseAlphabet[c];
-                    }
-                }
-            }
+            result = latinToMorse(inputText);
         }
     }
 
@@ -56,7 +66,7 @@ void MorseConverter::saveText(QString fileName, const QString inputText) {
 
     QFile outputFile(fileName.remove("file:///"));
 
-    if(outputFile.open(QFile::WriteOnly)) {
+    if (outputFile.open(QFile::WriteOnly)) {
         QTextStream outstream(&outputFile);
         outstream << inputText;
         outputFile.close();
@@ -68,7 +78,7 @@ void MorseConverter::openFile(QString fileName) {
     QString inputText;
     QFile inputFile(fileName.remove("file:///"));
 
-    if(inputFile.open(QIODevice::ReadOnly)) {
+    if (inputFile.open(QIODevice::ReadOnly)) {
         inputText = inputFile.readAll();
     }
 

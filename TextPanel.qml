@@ -4,10 +4,9 @@ import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 
 RowLayout {
+    Layout.fillHeight: true
     Layout.margins: 5
     spacing: 5
-
-    Layout.fillHeight: true
 
     property var inputText: inputTextEdit.taText
     property var outputText: outputTextEdit.taText
@@ -35,11 +34,11 @@ RowLayout {
     }
 
     // switch button
-    SwitchButton {
+    SimpleButton {
         id: switchButton
-        onClick: {
-            inputTextEdit.setText(outputTextEdit.taText)
-        }
+        text: "<-"
+        onClicked: inputTextEdit.setText(outputTextEdit.taText)
+        anchors.verticalCenter: parent.verticalCenter
     }
 
     // output text

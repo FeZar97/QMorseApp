@@ -22,7 +22,6 @@ Window {
 
         ControlPanel {
             id: controlPanel
-
             onSaveText: converter.saveText(fileName, textPanel.outputText)
         }
 
