@@ -38,7 +38,7 @@ RowLayout {
         id: switchButton
         text: "<-"
         onClicked: inputTextEdit.setText(outputTextEdit.taText)
-        anchors.verticalCenter: parent.verticalCenter
+        // anchors.verticalCenter: parent.verticalCenter
     }
 
     // output text

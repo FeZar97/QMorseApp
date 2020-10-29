@@ -21,7 +21,9 @@ ColumnLayout {
 
     Connections {
         target: textArea
-        onTextChanged: textChangedTE(textArea.text)
+        function onTextChanged() {
+            textChangedTE(textArea.text)
+        }
     }
 
     Label {

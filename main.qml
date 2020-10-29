@@ -12,8 +12,12 @@ Window {
 
     Connections {
         target: converter
-        onEncodedTextReady: textPanel.setEncodedText(encodedText)
-        onDecodedTextReady: textPanel.setDecodedText(decodedText)
+        function onEncodedTextReady(encodedText) {
+            textPanel.setEncodedText(encodedText)
+        }
+        function onDecodedTextReady(decodedText) {
+            textPanel.setDecodedText(decodedText)
+        }
     }
 
     ColumnLayout {

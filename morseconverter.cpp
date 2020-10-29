@@ -42,7 +42,6 @@ QString MorseConverter::morseToLatin(const QString &text) {
 }
 
 MorseConverter::MorseConverter(QObject *parent) : QObject(parent) {
-
 }
 
 void MorseConverter::processText(QString inputText) {
